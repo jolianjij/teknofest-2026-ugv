@@ -1,0 +1,5 @@
+# Install requirements.txt first. These packages are needed only on the laptop
+# that generates data and trains/exports the model; do not install PyTorch on
+# the Raspberry Pi runtime unless you independently need it.
+torch>=2.2,<3.0
+onnx>=1.16,<2.0

@@ -1,0 +1,11 @@
+# Goal: sent by the dispatcher whenever a valid stage transition is accepted.
+uint8 stage_id
+string behavior
+---
+# Result: returned by the team's behavior/action server.
+bool success
+string message
+---
+# Feedback: optional progress information for dashboards and logs.
+float32 progress
+string state

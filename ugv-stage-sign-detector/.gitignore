@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+build/
+install/
+log/
+calibrated_detector.yaml
+*.mp4
+datasets/
+*.pt
+*_history.csv
+*_metrics.json

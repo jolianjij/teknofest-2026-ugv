@@ -15,6 +15,11 @@ esp32_firmware/.pio/
 *.pt
 *.onnx
 *.onnx.data
+# Exception: the sign detector package's small (~1 MB) production model is what
+# makes that package runnable, so it IS tracked.
+!ugv-stage-sign-detector/ros2_ws/src/ugv_stage_sign_detector/models/*.onnx
+!ugv-stage-sign-detector/ros2_ws/src/ugv_stage_sign_detector/models/*.pt
+ugv-stage-sign-detector/datasets/
 vision_models/**/dataset/
 vision_models/**/dataset_real/
 vision_models/**/dataset_yolo/

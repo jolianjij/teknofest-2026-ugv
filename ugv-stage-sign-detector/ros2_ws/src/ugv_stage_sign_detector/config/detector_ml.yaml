@@ -1,0 +1,62 @@
+detector:
+  process_width: 960
+
+  roi:
+    x_min: 0.0
+    y_min: 0.0
+    x_max: 1.0
+    y_max: 0.90
+
+  red:
+    low_hue_1: 0
+    high_hue_1: 12
+    low_hue_2: 165
+    high_hue_2: 179
+    min_saturation: 80
+    min_value: 60
+    morphology_kernel: 5
+
+  geometry:
+    min_area_px: 180
+    max_area_fraction: 0.20
+    min_circularity: 0.55
+    min_aspect_ratio: 0.55
+    max_aspect_ratio: 1.55
+    min_red_annulus_fraction: 0.28
+    min_white_inner_fraction: 0.42
+    annulus_inner_radius: 0.34
+    annulus_outer_radius: 0.50
+    digit_region_radius: 0.34
+    min_digit_fraction: 0.008
+    max_digit_fraction: 0.34
+
+  templates:
+    labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    rectified_size: 160
+    normalized_digit_size: 96
+    normalized_margin: 8
+    font_path: ""
+    min_match_confidence: 0.58
+    min_classification_margin: 0.015
+
+  classifier:
+    mode: onnx
+    # Resolved relative to this YAML file. The training command writes here.
+    model_path: ../models/stage_sign_classifier.onnx
+    labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    input_size: 64
+    # Provisional only: tune these using held-out real Camera Module 3 sessions.
+    min_confidence: 0.85
+    min_margin: 0.20
+    # A geometry-valid sign the model cannot name is published as sign 0 so the
+    # stage manager can stop the vehicle instead of driving past an unread
+    # instruction. Raise unknown_min_geometry if red barriers or other round
+    # red objects start causing nuisance stops on the real course.
+    unknown_stops_vehicle: true
+    unknown_min_geometry: 0.62
+
+  temporal:
+    history_size: 6
+    required_hits: 4
+    min_confidence: 0.78
+    disappear_frames_to_rearm: 8

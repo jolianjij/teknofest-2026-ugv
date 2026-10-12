@@ -1,0 +1,66 @@
+detector:
+  # Capturing at 1280x720 and processing at 960px wide is a useful Pi 5 baseline.
+  process_width: 960
+
+  # Normalized search area. Keep configurable because standard/wide camera is unknown.
+  roi:
+    x_min: 0.0
+    y_min: 0.0
+    x_max: 1.0
+    y_max: 0.90
+
+  red:
+    low_hue_1: 0
+    high_hue_1: 12
+    low_hue_2: 165
+    high_hue_2: 179
+    min_saturation: 80
+    min_value: 60
+    morphology_kernel: 5
+
+  geometry:
+    min_area_px: 180
+    max_area_fraction: 0.20
+    min_circularity: 0.55
+    min_aspect_ratio: 0.55
+    max_aspect_ratio: 1.55
+    min_red_annulus_fraction: 0.28
+    min_white_inner_fraction: 0.42
+    annulus_inner_radius: 0.34
+    annulus_outer_radius: 0.50
+    digit_region_radius: 0.34
+    min_digit_fraction: 0.008
+    max_digit_fraction: 0.34
+
+  templates:
+    labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    rectified_size: 160
+    normalized_digit_size: 96
+    normalized_margin: 8
+    font_path: ""
+    min_match_confidence: 0.58
+    min_classification_margin: 0.015
+
+  # Compatibility/development mode. Use detector_ml.yaml after training the
+  # ONNX classifier; the red-ring and geometry stages remain identical.
+  classifier:
+    mode: template
+    model_path: ""
+    labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    input_size: 64
+    min_confidence: 0.85
+    min_margin: 0.20
+    # NOTE: the template classifier has no reject class - it always returns its
+    # best-matching digit, so it can never report "unknown" and this fail-safe
+    # is unreachable in template mode. It stays declared so both configs share a
+    # schema, but only detector_ml.yaml (ONNX) can actually stop on an unread
+    # sign. Do not run the template fallback as the competition configuration.
+    unknown_stops_vehicle: true
+    unknown_min_geometry: 0.62
+
+  temporal:
+    history_size: 6
+    required_hits: 4
+    # Low-confidence observations may be displayed but must not trigger ROS actions.
+    min_confidence: 0.78
+    disappear_frames_to_rearm: 8

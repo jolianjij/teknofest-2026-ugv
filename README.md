@@ -54,7 +54,8 @@ flowchart LR
 | `teknofest_ws_bridge/` | Orange Pi Python nodes: serial bridge, mission manager, aim tracker, door/path/sign vision, web dashboard, systemd units. |
 | `teknofest_ws_bridge/mission_logic.py` | ROS-independent drive logic (corridor following, turn-then-advance, sliding-door state machine, stall detection) - unit tested. |
 | `robot_description/` | URDF/xacro, EKF + Nav2 configs (sim and hardware), Gazebo world. Colcon package. |
-| `vision_models/` | Training/export code for the sign classifier and path-segmentation CNN. **Weights and datasets are not in git** (see below). |
+| `ugv-stage-sign-detector/` | Stage-sign detection package (classical red-ring localisation + small ONNX CNN, temporal confirmation, course-order gate, `ExecuteStage` action). Own README, MIT licence, tests and training guide; ships its ~1 MB production model. Datasets are not in git. |
+| `vision_models/` | Training/export code for the earlier sign classifier and the path-segmentation CNN. **Weights and datasets are not in git** (see below). |
 | `vision_prototyping/` | Laser-target generator and a face-tracking aim demo. |
 | `docs/` | Project plan and the Run 2 autonomy plan. |
 | `deploy_updates.sh` | Phased deploy of everything to the Orange Pi over SSH. |
@@ -109,8 +110,10 @@ is a required argument (or `HOTSPOT_PASSWORD`) - none is stored in the repo.
 
 Kept out of git on purpose (see `.gitignore`): trained model weights (`*.pt`, `*.onnx`),
 training datasets and captured frames, the PlatformIO dependency cache, scratch files, the
-official competition specification PDF, and paper excerpts. The sign-detection stack lives in a
-separate package (`ugv-stage-sign-detector`) that this repo only consumes.
+official competition specification PDF, and paper excerpts. There are also no CAD files or wiring
+schematics: the hardware design is captured as text in `esp32_firmware/PINOUT.md` (pins, relay
+map) and as the URDF in `robot_description/`. A few Pi-only helper scripts (per-service start
+scripts, udev rules) live on the Orange Pi and are not yet mirrored here.
 
 ## Documentation
 
