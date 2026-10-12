@@ -1,0 +1,22 @@
+[Unit]
+Description=teknofest cameras (camera_manager_node.py, 3 simultaneous streams)
+# No After=multi-user.target here on purpose: combined with WantedBy=multi-
+# user.target below, that would say "start after multi-user.target" AND
+# (implicitly, from WantedBy) "must be up before multi-user.target is
+# reached" - a direct ordering cycle. Found the hard way 2026-09-10 (systemd
+# logged "Found ordering cycle on teknofest-cameras.service/start" for every
+# unit depending on this one). DefaultDependencies=yes (systemd's default)
+# already orders this after sysinit.target/basic.target, which is enough.
+
+[Service]
+Type=simple
+User=jolian
+WorkingDirectory=/home/jolian/teknofest_ws
+ExecStart=/home/jolian/teknofest_ws/start_cameras.sh
+Restart=always
+RestartSec=5
+StandardOutput=append:/tmp/cameras.log
+StandardError=append:/tmp/cameras.log
+
+[Install]
+WantedBy=multi-user.target

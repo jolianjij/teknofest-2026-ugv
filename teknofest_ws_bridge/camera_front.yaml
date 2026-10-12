@@ -1,0 +1,16 @@
+/**:
+  ros__parameters:
+    video_device: "/dev/cam_front"
+    framerate: 30.0
+    io_method: "mmap"
+    frame_id: "camera_front"
+    # mjpeg2rgb reproducibly segfaults on ros-jazzy-usb-cam 0.8.1 (any resolution) -
+    # confirmed real driver bug, not a config issue. raw_mjpeg (compressed passthrough)
+    # also crashes on this build. Use yuyv until/unless usb_cam is patched or upgraded.
+    pixel_format: "yuyv"
+    image_width: 640
+    image_height: 480
+    camera_name: "camera_front"
+    camera_info_url: ""
+    autofocus: false
+    auto_exposure: true

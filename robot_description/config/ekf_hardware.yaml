@@ -1,0 +1,45 @@
+ekf_filter_node:
+  ros__parameters:
+    frequency: 30.0
+    two_d_mode: true
+    publish_tf: true
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_footprint
+    world_frame: odom
+    use_sim_time: false
+
+    # Real hardware variant of ekf.yaml (2026-09-11) - that file is sim-only
+    # (Gazebo's DiffDrive-plugin odometry, use_sim_time: true). There are no
+    # wheel/track encoders on the real vehicle (see CLAUDE.md Open Decisions
+    # "Encoders"), so odom0 here is rf2o_laser_odometry's frame-to-frame 2D
+    # scan-matching output instead - no map required, matching this
+    # project's deliberate no-map/no-AMCL Nav2 design (nav2_params.yaml's
+    # own header comment: course is unknown until competition day).
+    # UNVALIDATED - rf2o_laser_odometry has never been run against this
+    # lidar's real scan data. If its odometry proves too noisy/drifty on the
+    # actual course surface, this is the file to revisit (e.g. drop odom0
+    # entirely and fuse IMU-only, accepting no position estimate at all,
+    # rather than trusting a bad one).
+    odom0: /rf2o_laser_odometry/odom
+    odom0_config: [true,  true,  false,
+                   false, false, true,
+                   true,  true,  false,
+                   false, false, true,
+                   false, false, false]
+    odom0_differential: false
+    odom0_relative: false
+    odom0_queue_size: 10
+
+    # BNO055 via serial_bridge.py - identical to the sim config, this one
+    # was always real hardware regardless.
+    imu0: esp32/imu
+    imu0_config: [false, false, false,
+                  true,  true,  true,
+                  false, false, false,
+                  true,  true,  true,
+                  true,  true,  true]
+    imu0_differential: false
+    imu0_relative: true
+    imu0_remove_gravitational_acceleration: true
+    imu0_queue_size: 10

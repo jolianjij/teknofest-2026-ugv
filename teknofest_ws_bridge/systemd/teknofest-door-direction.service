@@ -1,0 +1,16 @@
+[Unit]
+Description=teknofest sliding-door direction/period tracker
+After=teknofest-cameras.service
+
+[Service]
+Type=simple
+User=jolian
+WorkingDirectory=/home/jolian/teknofest_ws
+ExecStart=/home/jolian/teknofest_ws/start_door_direction.sh
+Restart=always
+RestartSec=5
+StandardOutput=append:/tmp/door_direction.log
+StandardError=append:/tmp/door_direction.log
+
+[Install]
+WantedBy=multi-user.target

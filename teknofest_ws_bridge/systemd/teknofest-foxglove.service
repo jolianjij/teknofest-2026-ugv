@@ -1,0 +1,19 @@
+[Unit]
+Description=teknofest foxglove_bridge
+# Same fix as teknofest-cameras.service: no explicit After=multi-user.target
+# here - it contradicts the implicit "before multi-user.target" ordering
+# that WantedBy=multi-user.target already gives this unit, which is an
+# ordering cycle systemd cannot resolve.
+
+[Service]
+Type=simple
+User=jolian
+WorkingDirectory=/home/jolian/teknofest_ws
+ExecStart=/home/jolian/teknofest_ws/start_foxglove.sh
+Restart=always
+RestartSec=5
+StandardOutput=append:/tmp/foxglove.log
+StandardError=append:/tmp/foxglove.log
+
+[Install]
+WantedBy=multi-user.target

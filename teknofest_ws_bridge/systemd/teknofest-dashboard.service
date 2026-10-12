@@ -1,0 +1,16 @@
+[Unit]
+Description=teknofest web dashboard
+After=teknofest-cameras.service teknofest-serial-bridge.service
+
+[Service]
+Type=simple
+User=jolian
+WorkingDirectory=/home/jolian/teknofest_ws
+ExecStart=/home/jolian/teknofest_ws/start_dashboard.sh
+Restart=always
+RestartSec=5
+StandardOutput=append:/tmp/dashboard.log
+StandardError=append:/tmp/dashboard.log
+
+[Install]
+WantedBy=multi-user.target

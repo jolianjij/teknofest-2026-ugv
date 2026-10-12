@@ -1,0 +1,39 @@
+# --- Python / tooling ---
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# --- Claude Code local state ---
+.claude/
+
+# --- ESP32 PlatformIO build cache + downloaded library deps (regenerable) ---
+esp32_firmware/.pio/
+
+# --- Trained weights, exported models, datasets, captured frames (large, regenerable) ---
+*.pt
+*.onnx
+*.onnx.data
+vision_models/**/dataset/
+vision_models/**/dataset_real/
+vision_models/**/dataset_yolo/
+vision_models/**/frames/
+vision_models/**/runs/
+vision_models/sign_classifier/*_log*.txt
+vision_models/sign_classifier/capture_log.txt
+
+# --- Scratch / throwaway ---
+scratch/
+scratch_render/
+pi_ws/
+
+# --- Third-party material not ours to redistribute ---
+refs.txt
+vision_models/sign_classifier/paper_extract.txt
+docs/2026_UGV_Competition_Specification_EN.pdf
+
+# --- Runtime recordings / secrets ---
+recordings/
+*.env
+.env

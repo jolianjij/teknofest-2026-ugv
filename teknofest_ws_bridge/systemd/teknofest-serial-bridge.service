@@ -1,0 +1,20 @@
+[Unit]
+Description=teknofest ESP32 serial bridge
+After=teknofest-cameras.service
+
+[Service]
+Type=simple
+User=jolian
+WorkingDirectory=/home/jolian/teknofest_ws
+ExecStart=/home/jolian/teknofest_ws/start_serial_bridge.sh
+# This process was found dead (no crash trace, no process) 2026-09-10 after
+# running fine for a while - root cause not yet identified. Restart=always
+# means systemd brings it back within RestartSec regardless of whether that
+# happens again, instead of silently staying down until someone notices.
+Restart=always
+RestartSec=5
+StandardOutput=append:/tmp/serial_bridge.log
+StandardError=append:/tmp/serial_bridge.log
+
+[Install]
+WantedBy=multi-user.target

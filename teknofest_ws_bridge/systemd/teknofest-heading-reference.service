@@ -1,0 +1,16 @@
+[Unit]
+Description=teknofest heading_reference (gyro-zero + /mission/active latch)
+After=teknofest-serial-bridge.service
+
+[Service]
+Type=simple
+User=jolian
+WorkingDirectory=/home/jolian/teknofest_ws
+ExecStart=/home/jolian/teknofest_ws/start_heading_reference.sh
+Restart=always
+RestartSec=5
+StandardOutput=append:/tmp/heading_reference.log
+StandardError=append:/tmp/heading_reference.log
+
+[Install]
+WantedBy=multi-user.target

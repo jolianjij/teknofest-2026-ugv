@@ -1,0 +1,952 @@
+<title>Run 2 Autonomy Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --ground:#F4F5F7;
+    --surface:#FFFFFF;
+    --surface-2:#EAEDF2;
+    --ink:#141922;
+    --muted:#5F6B7C;
+    --line:#D6DCE4;
+    --accent:#B5730F;
+    --accent-soft:#F7E8CD;
+    --risk:#B3392B;
+    --risk-soft:#F7DEDA;
+    --go:#2F7A52;
+    --go-soft:#DCEDE3;
+    --corridor:#DFE4EB;
+    --shadow:0 1px 2px rgba(20,25,34,.06), 0 8px 24px rgba(20,25,34,.05);
+    --sans:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    --cond:"IBM Plex Sans Condensed", "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0F1319;
+      --surface:#171D26;
+      --surface-2:#1E2631;
+      --ink:#E4E8EE;
+      --muted:#95A2B3;
+      --line:#2A323E;
+      --accent:#E5A748;
+      --accent-soft:#3A2D17;
+      --risk:#E2695A;
+      --risk-soft:#3B221E;
+      --go:#5FB587;
+      --go-soft:#1D3229;
+      --corridor:#222A35;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.28);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0F1319;
+    --surface:#171D26;
+    --surface-2:#1E2631;
+    --ink:#E4E8EE;
+    --muted:#95A2B3;
+    --line:#2A323E;
+    --accent:#E5A748;
+    --accent-soft:#3A2D17;
+    --risk:#E2695A;
+    --risk-soft:#3B221E;
+    --go:#5FB587;
+    --go-soft:#1D3229;
+    --corridor:#222A35;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.28);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--ground);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{max-width:1120px;margin:0 auto;padding:0 28px 96px}
+  .spine{max-width:68ch}
+
+  /* ---------- header ---------- */
+  header.masthead{
+    border-bottom:1px solid var(--line);
+    padding:64px 0 34px;
+    margin-bottom:44px;
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 18px;
+  }
+  h1{
+    font-family:var(--cond);
+    font-weight:700;
+    font-size:clamp(38px,6.2vw,62px);
+    line-height:1.02;
+    letter-spacing:-.015em;
+    margin:0 0 20px;
+    text-wrap:balance;
+  }
+  .standfirst{
+    font-size:19px;
+    line-height:1.55;
+    color:var(--muted);
+    margin:0;
+    max-width:60ch;
+  }
+  .standfirst strong{color:var(--ink);font-weight:600}
+
+  /* ---------- structure ---------- */
+  section{margin:0 0 60px}
+  h2{
+    font-family:var(--cond);
+    font-weight:700;
+    font-size:27px;
+    letter-spacing:-.005em;
+    line-height:1.2;
+    margin:0 0 6px;
+    text-wrap:balance;
+  }
+  .sec-note{
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 18px;
+  }
+  h3{
+    font-family:var(--cond);
+    font-weight:600;
+    font-size:19px;
+    line-height:1.3;
+    margin:0 0 8px;
+  }
+  p{margin:0 0 16px}
+  a{color:var(--accent)}
+  code{
+    font-family:var(--mono);
+    font-size:.875em;
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:1px 5px;
+  }
+
+  /* ---------- callout ---------- */
+  .callout{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:6px;
+    padding:22px 26px;
+    margin:0 0 24px;
+    box-shadow:var(--shadow);
+  }
+  .callout p:last-child{margin-bottom:0}
+  .callout .lead{
+    font-family:var(--cond);
+    font-weight:600;
+    font-size:20px;
+    line-height:1.32;
+    margin:0 0 10px;
+  }
+
+  /* ---------- insight list ---------- */
+  ol.insights{
+    list-style:none;
+    counter-reset:ins;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+  ol.insights li{
+    counter-increment:ins;
+    display:grid;
+    grid-template-columns:34px 1fr;
+    gap:16px;
+    align-items:start;
+  }
+  ol.insights li::before{
+    content:counter(ins);
+    font-family:var(--mono);
+    font-size:12px;
+    font-weight:500;
+    color:var(--accent);
+    border:1px solid var(--accent);
+    border-radius:50%;
+    width:26px;height:26px;
+    display:grid;place-items:center;
+    margin-top:3px;
+  }
+  ol.insights h3{margin-bottom:4px}
+  ol.insights p{margin:0;color:var(--muted)}
+  ol.insights p strong{color:var(--ink);font-weight:500}
+
+  /* ---------- figures ---------- */
+  figure{
+    margin:0 0 26px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:22px 22px 16px;
+    box-shadow:var(--shadow);
+  }
+  .fig-scroll{overflow-x:auto}
+  figure svg{display:block;max-width:100%;height:auto;min-width:640px}
+  figcaption{
+    font-size:14px;
+    color:var(--muted);
+    margin-top:14px;
+    padding-top:12px;
+    border-top:1px solid var(--line);
+    line-height:1.5;
+  }
+
+  /* ---------- table ---------- */
+  .twrap{
+    overflow-x:auto;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--surface);
+    box-shadow:var(--shadow);
+    margin-bottom:20px;
+  }
+  table{border-collapse:collapse;width:100%;min-width:780px;font-size:14.5px}
+  thead th{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+    text-align:left;
+    font-weight:500;
+    padding:13px 16px;
+    border-bottom:1px solid var(--line);
+    background:var(--surface-2);
+    white-space:nowrap;
+  }
+  tbody td{
+    padding:13px 16px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+    line-height:1.45;
+  }
+  tbody tr:last-child td{border-bottom:none}
+  td.num{
+    font-family:var(--mono);
+    font-variant-numeric:tabular-nums;
+    color:var(--muted);
+    width:34px;
+    text-align:right;
+  }
+  td.stage{font-weight:600;white-space:nowrap}
+  td.pts{
+    font-family:var(--mono);
+    font-variant-numeric:tabular-nums;
+    text-align:right;
+    white-space:nowrap;
+  }
+  .cue{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--accent);
+    display:block;
+    margin-bottom:3px;
+  }
+  tr.hot td.stage::after{
+    content:"";
+    display:inline-block;
+    width:6px;height:6px;
+    border-radius:50%;
+    background:var(--accent);
+    margin-left:7px;
+    vertical-align:middle;
+  }
+
+  /* ---------- behavior cards ---------- */
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+    gap:18px;
+    margin-bottom:22px;
+  }
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:22px;
+    box-shadow:var(--shadow);
+    display:flex;
+    flex-direction:column;
+  }
+  .card .pts{
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 8px;
+  }
+  .card h3{margin-bottom:10px}
+  .card p{font-size:14.5px;color:var(--muted);margin-bottom:12px}
+  .card p strong{color:var(--ink);font-weight:500}
+  .card p:last-child{margin-bottom:0}
+  .card ol{
+    margin:0;
+    padding-left:18px;
+    font-size:14px;
+    color:var(--muted);
+    line-height:1.5;
+  }
+  .card ol li{margin-bottom:5px}
+  .card ol li::marker{font-family:var(--mono);font-size:12px;color:var(--accent)}
+
+  /* ---------- build order ---------- */
+  ol.build{
+    list-style:none;
+    counter-reset:b;
+    margin:0;
+    padding:0;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--surface);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  ol.build li{
+    counter-increment:b;
+    display:grid;
+    grid-template-columns:44px 1fr auto;
+    gap:14px;
+    align-items:baseline;
+    padding:15px 20px;
+    border-bottom:1px solid var(--line);
+  }
+  ol.build li:last-child{border-bottom:none}
+  ol.build li::before{
+    content:counter(b,decimal-leading-zero);
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+    font-variant-numeric:tabular-nums;
+  }
+  ol.build .what{font-size:15px}
+  ol.build .what b{font-weight:600}
+  ol.build .what span{display:block;color:var(--muted);font-size:13.5px;line-height:1.45;margin-top:2px}
+  .chip{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    padding:3px 9px;
+    border-radius:100px;
+    white-space:nowrap;
+  }
+  .chip.none{background:var(--risk-soft);color:var(--risk)}
+  .chip.part{background:var(--accent-soft);color:var(--accent)}
+  .chip.done{background:var(--go-soft);color:var(--go)}
+  .chip.hw{background:var(--surface-2);color:var(--muted)}
+
+  /* ---------- misc lists ---------- */
+  ul.plain{margin:0 0 16px;padding-left:20px}
+  ul.plain li{margin-bottom:9px}
+  ul.plain li::marker{color:var(--accent)}
+
+  .twocol{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:26px;
+  }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding-top:22px;
+    color:var(--muted);
+    font-size:13.5px;
+  }
+  footer p{margin:0}
+
+  @media (max-width:640px){
+    .page{padding:0 18px 64px}
+    header.masthead{padding-top:44px}
+    ol.build li{grid-template-columns:32px 1fr;row-gap:8px}
+    ol.build li .chip{grid-column:2}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+  }
+</style>
+
+<div class="page">
+
+<header class="masthead">
+  <p class="eyebrow">TEKNOFEST 2026 · Unmanned Ground Vehicle · Run 2</p>
+  <h1>Run 2 Autonomy Plan</h1>
+  <p class="standfirst">The autonomous run is won by <strong>finishing every stage</strong>, not by any one clever perception system. The course is fixed, ordered, and known in advance — so the mission runs off a state machine anchored on IMU and lidar signatures, and every camera is demoted to optional confirmation.</p>
+</header>
+
+<section class="spine">
+  <h2>The reframe</h2>
+  <p class="sec-note">Where the effort should actually go</p>
+
+  <div class="callout">
+    <p class="lead">Reading the stage signs is worth zero points.</p>
+    <p>Nothing in the scoring table pays for identifying a stage sign. The only scored detection is the <em>fire point</em> — the laser target, worth 10. The 60&nbsp;cm discs are course furniture, not a scored task. So sign recognition belongs in the pipeline as a tie-breaker that confirms a state machine which already knows where it is — never as the single trigger that drives it.</p>
+    <p>That stays true even though the sign detector now <em>works</em>: on 4,300 frames of real printed-sign footage it confirmed all twelve signs in order at 0.88–0.96 confidence. A working detector is a strong third vote and a genuine safety input — it is still not a thing the mission may depend on alone.</p>
+  </div>
+
+  <ol class="insights">
+    <li>
+      <div>
+        <h3>Every stage has a strong non-camera signature</h3>
+        <p>Six of ten stages announce themselves in the <strong>BNO055 alone</strong> — sustained roll on the side slope, a pitch spike on the vertical obstacle, periodic vertical acceleration on the bumps, sustained pitch on the incline and decline. Two more are unmistakable in <strong>lidar</strong>: cones and the sliding door. Only the fording entry and the fire zone need position, and both sit on straight runs.</p>
+      </div>
+    </li>
+    <li>
+      <div>
+        <h3>The U-turns are free odometry anchors</h3>
+        <p>Dead reckoning without encoders drifts. But a corridor end wall fills the forward lidar arc and is impossible to miss. <strong>Reset along-track distance at each U-turn</strong> and drift can never accumulate past one 20&nbsp;m lane.</p>
+      </div>
+    </li>
+    <li>
+      <div>
+        <h3>Time is not the binding constraint — completion is</h3>
+        <p>Roughly 70&nbsp;m of travel at even 0.5&nbsp;m/s is ~140&nbsp;s. Add the two 2-second hill stops, a door wait, and the laser sequence and the worst case still lands near <strong>250&nbsp;s against a 900&nbsp;s limit</strong>. Bias every judgment call toward reliability; spend speed only on the open straights, where it is free.</p>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <h2>The course</h2>
+  <p class="sec-note">Three lanes, two U-turns, ten stages</p>
+  <figure>
+    <div class="fig-scroll">
+      <svg viewBox="0 0 920 530" role="img" aria-label="Course map: a three-lane serpentine. The bottom lane runs right to left through fording, aggregate road and side slope; a U-turn at the far left leads into the middle lane running left to right through the vertical obstacle, traffic cones and sliding doors; a U-turn at the far right leads into the top lane running right to left through bumped road, incline, fire zone and decline to the finish. The laser target sits off-course near the finish, about ten metres from the fire zone. The acceleration road is a separate detached straight.">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+
+        <!-- corridor -->
+        <path d="M 845,400 H 130 A 60,60 0 0 1 130,280 H 830 A 60,60 0 0 0 830,160 H 95"
+              fill="none" stroke="var(--corridor)" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- driven centreline -->
+        <path d="M 845,400 H 130 A 60,60 0 0 1 130,280 H 830 A 60,60 0 0 0 830,160 H 95"
+              fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="5 5" opacity=".85"/>
+
+        <!-- direction arrows -->
+        <g fill="var(--accent)">
+          <polygon points="612,394 612,406 600,400"/>
+          <polygon points="402,394 402,406 390,400"/>
+          <polygon points="320,274 320,286 332,280"/>
+          <polygon points="572,274 572,286 584,280"/>
+          <polygon points="662,154 662,166 650,160"/>
+          <polygon points="322,154 322,166 310,160"/>
+        </g>
+
+        <!-- start / finish -->
+        <g font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">
+          <rect x="836" y="386" width="28" height="28" rx="4" fill="var(--surface-2)" stroke="currentColor" stroke-width="1"/>
+          <text x="850" y="404" text-anchor="middle" font-size="10">S</text>
+          <text x="850" y="433" text-anchor="middle" fill="var(--muted)" font-size="10.5">START</text>
+
+          <rect x="81" y="146" width="28" height="28" rx="4" fill="var(--surface-2)" stroke="currentColor" stroke-width="1"/>
+          <text x="95" y="164" text-anchor="middle" font-size="10">F</text>
+          <text x="95" y="129" text-anchor="middle" fill="var(--muted)" font-size="10.5">FINISH</text>
+        </g>
+
+        <!-- stage markers -->
+        <g font-family="IBM Plex Mono, monospace" font-size="11.5">
+          <!-- bottom lane: labels below -->
+          <circle cx="700" cy="400" r="13" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.6"/>
+          <text x="700" y="404" text-anchor="middle" fill="currentColor">1</text>
+          <text x="700" y="433" text-anchor="middle" fill="var(--muted)" font-size="11">Fording</text>
+
+          <circle cx="520" cy="400" r="13" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.6"/>
+          <text x="520" y="404" text-anchor="middle" fill="currentColor">2</text>
+          <text x="520" y="433" text-anchor="middle" fill="var(--muted)" font-size="11">Aggregate</text>
+
+          <circle cx="290" cy="400" r="13" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.6"/>
+          <text x="290" y="404" text-anchor="middle" fill="currentColor">3</text>
+          <text x="290" y="433" text-anchor="middle" fill="var(--muted)" font-size="11">Side slope</text>
+
+          <!-- middle lane: labels above -->
+          <circle cx="210" cy="280" r="13" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.6"/>
+          <text x="210" y="284" text-anchor="middle" fill="currentColor">4</text>
+          <text x="210" y="253" text-anchor="middle" fill="var(--muted)" font-size="11">Vertical step</text>
+
+          <circle cx="440" cy="280" r="13" fill="var(--accent)" stroke="var(--accent)" stroke-width="1.6"/>
+          <text x="440" y="284" text-anchor="middle" fill="var(--surface)">5</text>
+          <text x="440" y="253" text-anchor="middle" fill="var(--muted)" font-size="11">Cones · 50</text>
+
+          <circle cx="690" cy="280" r="13" fill="var(--accent)" stroke="var(--accent)" stroke-width="1.6"/>
+          <text x="690" y="284" text-anchor="middle" fill="var(--surface)">6</text>
+          <text x="690" y="253" text-anchor="middle" fill="var(--muted)" font-size="11">Doors · 50</text>
+
+          <!-- top lane: labels above -->
+          <circle cx="740" cy="160" r="13" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.6"/>
+          <text x="740" y="164" text-anchor="middle" fill="currentColor">7</text>
+          <text x="740" y="133" text-anchor="middle" fill="var(--muted)" font-size="11">Bumps</text>
+
+          <circle cx="560" cy="160" r="13" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.6"/>
+          <text x="560" y="164" text-anchor="middle" fill="currentColor">8</text>
+          <text x="560" y="133" text-anchor="middle" fill="var(--muted)" font-size="11">Incline · stop 2 s</text>
+
+          <circle cx="390" cy="160" r="13" fill="var(--accent)" stroke="var(--accent)" stroke-width="1.6"/>
+          <text x="390" y="164" text-anchor="middle" fill="var(--surface)">9</text>
+          <text x="390" y="133" text-anchor="middle" fill="var(--muted)" font-size="11">Fire zone · 60</text>
+
+          <circle cx="230" cy="160" r="13" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.6"/>
+          <text x="230" y="164" text-anchor="middle" fill="currentColor">10</text>
+          <text x="230" y="133" text-anchor="middle" fill="var(--muted)" font-size="11">Decline · stop 2 s</text>
+        </g>
+
+        <!-- laser target + sight line -->
+        <g>
+          <line x1="378" y1="148" x2="212" y2="92" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#ah)" color="var(--accent)"/>
+          <text x="300" y="94" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--accent)">≈10 m sight line</text>
+          <circle cx="196" cy="84" r="15" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          <circle cx="196" cy="84" r="9.5" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          <circle cx="196" cy="84" r="4" fill="var(--accent)"/>
+          <text x="196" y="56" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">LASER TARGET</text>
+        </g>
+
+        <!-- acceleration road -->
+        <g>
+          <line x1="120" y1="482" x2="560" y2="482" stroke="var(--corridor)" stroke-width="24" stroke-linecap="round"/>
+          <line x1="120" y1="482" x2="548" y2="482" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="5 5" opacity=".85" marker-end="url(#ah)" color="var(--accent)"/>
+          <text x="120" y="512" text-anchor="start" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">ACCELERATION ROAD — separate 30 m straight, timed, 25 pts</text>
+        </g>
+
+        <!-- legend -->
+        <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--muted)">
+          <circle cx="700" cy="474" r="6" fill="var(--accent)"/>
+          <text x="714" y="478">filled = 50+ point behaviour</text>
+          <circle cx="700" cy="498" r="6" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.4"/>
+          <text x="714" y="502">hollow = 5–15 point stage</text>
+        </g>
+      </svg>
+    </div>
+    <figcaption>The driven route is one continuous 3&nbsp;m corridor: right-to-left along the bottom, a U-turn, left-to-right along the middle, a second U-turn, then right-to-left along the top to the finish. Cones, doors and the fire zone carry 160 of the roughly 210 available stage points between them.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>Stage triggers and fallbacks</h2>
+  <p class="sec-note">What tells the robot where it is — and what happens when that fails</p>
+  <div class="twrap">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Stage</th>
+          <th>Primary cue</th>
+          <th>Behaviour</th>
+          <th>On timeout</th>
+          <th style="text-align:right">Pts</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="num">1</td>
+          <td class="stage">Fording &amp; shower</td>
+          <td><span class="cue">odom + entry pitch</span>Distance from start</td>
+          <td>Straight run, constant speed, IMU heading hold. Cameras ignored — rain and water surface will lie.</td>
+          <td>Keep driving straight</td>
+          <td class="pts">10</td>
+        </tr>
+        <tr>
+          <td class="num">2</td>
+          <td class="stage">Aggregate road</td>
+          <td><span class="cue">IMU accel · HF vertical</span>Vibration signature</td>
+          <td>Reduce speed ~30%, hold heading, ride it out.</td>
+          <td>Keep driving straight</td>
+          <td class="pts">5</td>
+        </tr>
+        <tr>
+          <td class="num">3</td>
+          <td class="stage">Side slope</td>
+          <td><span class="cue">IMU roll ≈ 11°</span>Sustained roll (20% grade)</td>
+          <td>Constant speed across; no steering corrections that could break traction.</td>
+          <td>Keep driving straight</td>
+          <td class="pts">5</td>
+        </tr>
+        <tr>
+          <td class="num">4</td>
+          <td class="stage">Vertical obstacle</td>
+          <td><span class="cue">IMU pitch spike</span>Up then down, 15 cm step</td>
+          <td>Square up to the step with lidar wall alignment, then commit at raised, steady power.</td>
+          <td>Reverse 1 m, re-approach once, then pass on</td>
+          <td class="pts">5</td>
+        </tr>
+        <tr class="hot">
+          <td class="num">5</td>
+          <td class="stage">Traffic cones</td>
+          <td><span class="cue">/scan + /front/ground_obstacles</span>Objects inside the corridor</td>
+          <td>Nav2 local costmap + MPPI, inflation tuned for clearance, speed capped. Camera adds a drivable-surface judgement and a second obstacle list with range and bearing.</td>
+          <td>Cannot be passed on. Creep forward on widest lidar gap.</td>
+          <td class="pts">50</td>
+        </tr>
+        <tr class="hot">
+          <td class="num">6</td>
+          <td class="stage">Sliding doors</td>
+          <td><span class="cue">/scan + /door/state</span>Large obstacle cycling</td>
+          <td>Stop at standoff, learn period and travel direction from the camera, hug the right wall, commit only into a measured clear window after a confirmed right-side exit.</td>
+          <td>Hold and keep re-observing; pass on if the clock demands</td>
+          <td class="pts">50</td>
+        </tr>
+        <tr>
+          <td class="num">7</td>
+          <td class="stage">Bumped road</td>
+          <td><span class="cue">IMU accel · periodic</span>Regular vertical impulses</td>
+          <td>Centre in the corridor so both tracks take their own bump line. Straight, slow, no steering.</td>
+          <td>Keep driving straight</td>
+          <td class="pts">5</td>
+        </tr>
+        <tr>
+          <td class="num">8</td>
+          <td class="stage">Incline</td>
+          <td><span class="cue">IMU pitch ≈ +24.5°</span>Sustained climb (45%)</td>
+          <td>Climb, stop at the mark, engage brake relays, hold ≥2 s with zero drift, release, continue.</td>
+          <td>Continue climbing without the stop (partial credit)</td>
+          <td class="pts">15</td>
+        </tr>
+        <tr class="hot">
+          <td class="num">9</td>
+          <td class="stage">Fire zone</td>
+          <td><span class="cue">IMU pitch → level</span>Flat ground after the climb</td>
+          <td>Full stop, brakes on, swap to aim camera, acquire target, hold 1 s, fire. See below.</td>
+          <td>Abort the shot, resume driving — attempts carry across runs</td>
+          <td class="pts">60</td>
+        </tr>
+        <tr>
+          <td class="num">10</td>
+          <td class="stage">Decline</td>
+          <td><span class="cue">IMU pitch ≈ −24.5°</span>Sustained descent</td>
+          <td>Descend under speed control, stop at the mark, brakes, hold ≥2 s, release, run to finish.</td>
+          <td>Continue descending without the stop</td>
+          <td class="pts">15</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="spine">Two cues agreeing is the acceptance rule — a sensor signature plus the along-track estimate. The stage sign, if the camera happens to read one, is a third vote and nothing more.</p>
+</section>
+
+<section class="spine">
+  <h2>Localisation: corridor-relative, not global</h2>
+  <p class="sec-note">Skip SLAM in a featureless 3 m box</p>
+  <p>A global map and AMCL buy nothing in a 20&nbsp;m corridor of near-identical walls, and they fail in exactly the ways that end runs. Estimate three numbers continuously instead — they are what every behaviour actually consumes:</p>
+  <ul class="plain">
+    <li><strong>Lateral offset</strong> from the corridor centreline — both walls are always in view of the RPLidar.</li>
+    <li><strong>Heading error</strong> against the corridor axis — lidar wall angle, fused with BNO055 yaw.</li>
+    <li><strong>Along-track distance</strong> since the last anchor — integrated, and <em>reset at every U-turn</em>.</li>
+  </ul>
+  <p>Nav2 then earns its place in exactly one place: the cone slalom, where real path planning around discrete obstacles is the task. Everywhere else a reactive corridor controller is simpler, faster to tune, and harder to break.</p>
+</section>
+
+<section>
+  <h2>The three behaviours that hold the points</h2>
+  <p class="sec-note">160 of ~210 stage points live here</p>
+  <div class="cards">
+
+    <article class="card">
+      <p class="pts">Stage 5 · 50 pts · −5 per contact</p>
+      <h3>Cone slalom</h3>
+      <p>The most conventional problem on the course, and the one that most rewards competent Nav2 configuration rather than novel code. Cones stand 75&nbsp;cm tall on a 40&nbsp;cm base — comfortably visible to the lidar at any sane mount height.</p>
+      <p><strong>Cannot be passed on in the autonomous run</strong>, so it has no escape hatch: the fallback is to creep along the widest lidar gap rather than stop.</p>
+      <ol>
+        <li>Cap speed on entry; widen the inflation radius so "no contact" has margin.</li>
+        <li>Local costmap + MPPI only — no global replanning.</li>
+        <li>Exit on corridor clear ahead for a full lane width.</li>
+      </ol>
+    </article>
+
+    <article class="card">
+      <p class="pts">Stage 6 · 50 pts · timing-critical</p>
+      <h3>Sliding door</h3>
+      <p>Hug the right wall and enter only after the door has cleared to the right — a left exit or an ambiguous read leaves too little margin and risks a strike.</p>
+      <p><strong>Do not hard-code the door speed.</strong> The spec's "20&nbsp;m/s" is not physically credible for a parkour-scale door and is already flagged for official Q&amp;A. Measure the real period on site during the 5-minute self-trial window and feed that number in.</p>
+      <ol>
+        <li>Stop at standoff, outside the swept volume.</li>
+        <li>Watch ≥3 full cycles; estimate period, phase and exit side.</li>
+        <li>Commit only when predicted clear window &gt; transit time × safety factor.</li>
+        <li>Abort-and-re-wait is a first-class state, not an error path.</li>
+      </ol>
+    </article>
+
+    <article class="card">
+      <p class="pts">Stage 9 · 50 + 10 pts · −10 if anything moves</p>
+      <h3>Laser engagement</h3>
+      <p>This happens stopped, which conveniently dissolves the USB2 bandwidth conflict — the front camera can go down while the aim camera comes up, because nothing is driving.</p>
+      <p>The −10 penalty for movement during firing means the <strong>brake relays must be engaged and stepper pulse generation actually halted</strong>, not merely commanded to zero rate. Three attempts exist across runs, so one clean attempt per run is the right ambition.</p>
+      <ol>
+        <li>Stop, brakes on, confirm zero motion in the IMU.</li>
+        <li>Swap camera; sweep pan/tilt to acquire.</li>
+        <li>Centre on the concentric-ring target (<code>aim_tracker.py</code>).</li>
+        <li>Verify stillness → laser on 1 s → off → swap back.</li>
+      </ol>
+    </article>
+
+  </div>
+</section>
+
+<section>
+  <h2>What the front camera does</h2>
+  <p class="sec-note">Three duties, all now built — two of them verified</p>
+  <div class="cards">
+
+    <article class="card">
+      <p class="pts">Duty 1 · validated on real footage</p>
+      <h3>Read the stage signs</h3>
+      <p>Classical CV finds and validates the red ring; a small ONNX CNN classifies the rectified crop; four hits in six frames confirm it. A stage manager then enforces course order, so a spurious sign 8 after sign 2 cannot launch the wrong behaviour.</p>
+      <p><strong>Measured:</strong> 4,300 frames, all 12 signs confirmed in sequence, 0.88–0.96 confidence, and just <strong>1 frame in 4,300</strong> classified unknown.</p>
+    </article>
+
+    <article class="card">
+      <p class="pts">Duty 2 · stage 5 · verified on synthetic scenes</p>
+      <h3>Judge safe terrain and find cones</h3>
+      <p>A 2D lidar cannot tell firm ground from a soft verge or a ditch — it only reports that nothing is standing there. The ground-plane heuristic marks terrain that looks like the surface already being driven on.</p>
+      <p>Cones fall out of that for free: an obstacle is a non-drivable blob <strong>standing on</strong> drivable ground. Each one's base pixel projects under a flat-ground assumption to a real range and bearing, which is what a planner consumes. No cone detector and no colour assumptions — nothing to break under new lighting.</p>
+    </article>
+
+    <article class="card">
+      <p class="pts">Duty 3 · stage 6 · verified on synthetic sweeps</p>
+      <h3>Read the door's direction</h3>
+      <p>The whole door strategy turns on entering only after the door clears to the <em>right</em>. Direction is exactly what a 10&nbsp;Hz lidar gives poorly and a camera gives well.</p>
+      <p>Frame differencing isolates the only large horizontally-moving object in the corridor; a least-squares fit over twelve centroid samples gives signed velocity, so no single noisy frame can flip the answer — the worst possible failure, since direction decides whether the vehicle commits into a moving gate.</p>
+      <p><strong>Measured:</strong> 32/33 and 31/31 correct on right- and left-moving sweeps, zero misreads, nothing reported on a static scene, and a cycle period of 1.83&nbsp;s against 1.83&nbsp;s ground truth.</p>
+    </article>
+
+  </div>
+  <p class="spine">All three run on one camera that cannot share the USB&nbsp;2.0 hub with the aim camera. Duties 1–3 are all driving-time work and the aim camera is only needed at a standstill, so the conflict is schedulable — but it is still a single point of failure worth removing.</p>
+</section>
+
+<section>
+  <h2>Software spine</h2>
+  <p class="sec-note">What runs where, and the one hardware constraint that shapes it</p>
+  <figure>
+    <div class="fig-scroll">
+      <svg viewBox="0 0 960 348" role="img" aria-label="Data flow: the lidar and IMU feed the corridor estimator, stage cue detector and door monitor, whose outputs converge on the mission manager. The mission manager selects one of two controllers — the corridor controller for most stages, or Nav2 MPPI for the cones — and both emit cmd_vel to the serial bridge, which drives the ESP32. The front and aim cameras share a USB 2.0 hub and cannot stream at the same time; the front camera feeds optional sign confirmation, and the aim camera feeds the aim tracker, which sends aim commands to the serial bridge.">
+        <defs>
+          <marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+
+        <g font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--muted)" letter-spacing="1">
+          <text x="24" y="22">SENSORS</text>
+          <text x="236" y="22">PERCEPTION</text>
+          <text x="490" y="22">DECISION</text>
+          <text x="712" y="22">ACTUATION</text>
+        </g>
+
+        <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor" text-anchor="middle">
+          <!-- sensors -->
+          <rect x="24" y="40" width="142" height="36" rx="5" fill="var(--surface-2)" stroke="var(--line)"/>
+          <text x="95" y="62">/scan · lidar</text>
+          <rect x="24" y="86" width="142" height="36" rx="5" fill="var(--surface-2)" stroke="var(--line)"/>
+          <text x="95" y="108">/esp32/imu</text>
+          <rect x="24" y="178" width="142" height="36" rx="5" fill="var(--surface-2)" stroke="var(--line)"/>
+          <text x="95" y="200">front camera</text>
+          <rect x="24" y="286" width="142" height="36" rx="5" fill="var(--surface-2)" stroke="var(--line)"/>
+          <text x="95" y="308">aim camera</text>
+
+          <!-- perception -->
+          <rect x="236" y="40" width="176" height="36" rx="5" fill="var(--surface)" stroke="var(--accent)"/>
+          <text x="324" y="62">corridor_estimator</text>
+          <rect x="236" y="86" width="176" height="36" rx="5" fill="var(--surface)" stroke="var(--accent)"/>
+          <text x="324" y="108">stage_cue_detector</text>
+          <rect x="236" y="132" width="176" height="36" rx="5" fill="var(--surface)" stroke="var(--accent)"/>
+          <text x="324" y="154">door_direction</text>
+          <rect x="236" y="178" width="176" height="36" rx="5" fill="var(--surface)" stroke="var(--accent)"/>
+          <text x="324" y="200">path_segmentation</text>
+          <rect x="236" y="232" width="176" height="36" rx="5" fill="var(--surface)" stroke="var(--accent)"/>
+          <text x="324" y="254">stage_sign_detector</text>
+          <rect x="236" y="286" width="176" height="36" rx="5" fill="var(--surface)" stroke="var(--accent)"/>
+          <text x="324" y="308">aim_tracker</text>
+
+          <!-- decision -->
+          <rect x="490" y="86" width="152" height="76" rx="5" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+          <text x="566" y="118" font-size="12">mission_manager</text>
+          <text x="566" y="136" font-size="9.5" fill="var(--muted)">10-stage sequence</text>
+          <rect x="490" y="232" width="152" height="36" rx="5" fill="var(--surface)" stroke="var(--accent)"/>
+          <text x="566" y="249" font-size="10.5">stage_manager</text>
+          <text x="566" y="261" font-size="9" fill="var(--muted)">unknown → stop</text>
+
+          <!-- actuation -->
+          <rect x="712" y="54" width="152" height="40" rx="5" fill="var(--surface)" stroke="var(--accent)"/>
+          <text x="788" y="72" font-size="10.5">corridor_controller</text>
+          <text x="788" y="85" font-size="9.5" fill="var(--muted)">8 of 10 stages</text>
+          <rect x="712" y="108" width="152" height="40" rx="5" fill="var(--surface)" stroke="var(--line)"/>
+          <text x="788" y="126" font-size="10.5">Nav2 / MPPI</text>
+          <text x="788" y="139" font-size="9.5" fill="var(--muted)">cones only</text>
+          <rect x="712" y="186" width="152" height="40" rx="5" fill="var(--surface)" stroke="var(--line)"/>
+          <text x="788" y="211" font-size="10.5">serial_bridge</text>
+          <rect x="712" y="252" width="152" height="44" rx="5" fill="var(--surface-2)" stroke="var(--line)"/>
+          <text x="788" y="271" font-size="10.5">ESP32</text>
+          <text x="788" y="285" font-size="9.5" fill="var(--muted)">DAC + relays + gimbal</text>
+        </g>
+
+        <!-- edges -->
+        <g stroke="currentColor" stroke-width="1.1" fill="none" opacity=".5" color="currentColor">
+          <!-- lidar + imu bus -->
+          <path d="M 166,58 H 206"/>
+          <path d="M 166,104 H 206"/>
+          <path d="M 206,58 V 104"/>
+          <path d="M 206,58 H 236" marker-end="url(#fa)"/>
+          <path d="M 206,104 H 236" marker-end="url(#fa)"/>
+          <!-- front camera fans to its three duties -->
+          <path d="M 166,196 H 206"/>
+          <path d="M 206,150 V 250"/>
+          <path d="M 206,150 H 236" marker-end="url(#fa)"/>
+          <path d="M 206,196 H 236" marker-end="url(#fa)"/>
+          <path d="M 206,250 H 236" marker-end="url(#fa)"/>
+          <!-- aim camera -->
+          <path d="M 166,304 H 236" marker-end="url(#fa)"/>
+          <!-- perception collected into the mission manager -->
+          <path d="M 412,58 H 452"/>
+          <path d="M 412,104 H 452"/>
+          <path d="M 412,150 H 452"/>
+          <path d="M 412,196 H 452"/>
+          <path d="M 452,58 V 196"/>
+          <path d="M 452,124 H 490" marker-end="url(#fa)"/>
+          <!-- sign path goes through the order gate first -->
+          <path d="M 412,250 H 490" marker-end="url(#fa)"/>
+          <path d="M 566,232 V 162" marker-end="url(#fa)"/>
+          <!-- controllers converge on the serial bridge -->
+          <path d="M 864,74 H 900 V 206 H 864" marker-end="url(#fa)"/>
+          <path d="M 864,128 H 900"/>
+          <path d="M 788,226 V 252" marker-end="url(#fa)"/>
+          <!-- autonomous aim command bypasses the mission manager -->
+          <path d="M 412,304 H 688 V 206 H 712" marker-end="url(#fa)"/>
+        </g>
+
+        <!-- mission manager selects exactly one controller -->
+        <g stroke="var(--accent)" stroke-width="1.6" fill="none" color="var(--accent)">
+          <path d="M 642,110 H 678 V 74 H 712" marker-end="url(#fa)"/>
+          <path d="M 642,140 H 678 V 128 H 712" marker-end="url(#fa)"/>
+        </g>
+
+        <g font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--muted)">
+          <text x="678" y="40" text-anchor="middle" fill="var(--accent)">selects one</text>
+          <text x="906" y="150">/cmd_vel</text>
+          <text x="796" y="244">serial</text>
+          <text x="574" y="200" text-anchor="middle">stage_transition</text>
+          <text x="548" y="298" text-anchor="middle">/esp32/aim_cmd</text>
+        </g>
+
+        <!-- usb constraint bracket -->
+        <g stroke="var(--risk)" stroke-width="1.3" fill="none">
+          <path d="M 16,178 H 8 V 322 H 16"/>
+        </g>
+        <text x="8" y="342" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--risk)">USB 2.0 hub — one camera at a time</text>
+      </svg>
+    </div>
+    <figcaption>The mission manager is the spine: it consumes cues, selects one controller per stage, and is the only node that decides what happens next. Signs take a different route — through the stage manager's order gate, which rejects out-of-sequence signs and turns an unreadable one into a stop. The front camera carries three duties at once; it cannot stream alongside the aim camera on the current USB&nbsp;2.0 hub, which is tolerable only because aiming happens at a standstill, and is a reason to move the hub to USB&nbsp;3.0 before the event.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>Build order</h2>
+  <p class="sec-note">Dependency first, then points at risk</p>
+  <ol class="build">
+    <li>
+      <div class="what"><b>Speed calibration</b><span>Measure real <code>DAC_MIN_VALUE</code> / <code>DAC_MAX_VALUE</code> on the actual motors, wheels off the ground. Nothing above this line means anything until the vehicle moves predictably.</span></div>
+      <span class="chip none">not started</span>
+    </li>
+    <li>
+      <div class="what"><b>Odometry</b><span><code>/esp32/odom</code> is still unimplemented. Either add it to the serial protocol or stand in with lidar scan-matching, then fuse with the BNO055 in the EKF.</span></div>
+      <span class="chip none">not started</span>
+    </li>
+    <li>
+      <div class="what"><b>Corridor estimator + controller</b><span>Lateral offset, heading error, along-track distance — and the controller that consumes them. Reused by eight of the ten stages; the single highest-leverage piece on this list.</span></div>
+      <span class="chip none">not started</span>
+    </li>
+    <li>
+      <div class="what"><b>Mission state machine + cue detectors</b><span>The IMU and lidar signatures from the table above, plus the sequencer and the per-stage timeouts. This is the autonomy.</span></div>
+      <span class="chip none">not started</span>
+    </li>
+    <li>
+      <div class="what"><b>Cone slalom · 50 pts</b><span>Nav2 bring-up, local costmap, MPPI tuning. Camera-side terrain and obstacle extraction is built (<code>cone_terrain.py</code>); the flat-ground projection needs real camera height and pitch measured before any range it reports is trusted. No pass-on available in the autonomous run.</span></div>
+      <span class="chip part">perception done</span>
+    </li>
+    <li>
+      <div class="what"><b>Door commit logic · 50 pts</b><span>Direction, period and clear-window measurement are built and verified on synthetic sweeps (<code>door_tracking.py</code>). What remains is the commit decision itself: right-wall hug, transit-time margin, abort-and-re-wait — and validation against a real moving door.</span></div>
+      <span class="chip part">sensing done</span>
+    </li>
+    <li>
+      <div class="what"><b>Fire-zone sequence · 60 pts</b><span>Camera swap, acquisition sweep, brake-verified firing. <code>aim_tracker.py</code> is written but has never run against the physical gimbal.</span></div>
+      <span class="chip part">code only</span>
+    </li>
+    <li>
+      <div class="what"><b>Incline / decline hold · 30 pts</b><span>Brake relay engagement plus a no-slip check over the full 2 seconds on a 45% grade.</span></div>
+      <span class="chip part">firmware ready</span>
+    </li>
+    <li>
+      <div class="what"><b>Move the camera hub to USB 3.0</b><span>Physical rewire. Removes the swap as a single point of failure in the fire zone.</span></div>
+      <span class="chip hw">hardware</span>
+    </li>
+    <li>
+      <div class="what"><b>Sign recognition</b><span>Built, trained and validated on 4,300 frames of real footage: all 12 signs confirmed in order. Unknown now halts the vehicle instead of being discarded. Remaining work is course-lighting calibration and confirming the committee's sign-to-stage mapping — the package's own mapping is flagged provisional.</span></div>
+      <span class="chip done">working</span>
+    </li>
+  </ol>
+</section>
+
+<section class="spine">
+  <h2>Failure doctrine</h2>
+  <p class="sec-note">One rule, applied everywhere</p>
+  <div class="callout">
+    <p class="lead">No single stage may end the run.</p>
+    <p>Every stage behaviour carries a hard timeout. On expiry: log it, fall back to slow straight-ahead driving, and wait for the next stage cue. Surrendering 5 points on the vertical obstacle costs 5 points; stalling there costs the run — and completing Run&nbsp;1 is an explicit gate for reward-ranking eligibility, not merely the efficient priority.</p>
+  </div>
+
+  <div class="callout">
+    <p class="lead">An unreadable sign stops the vehicle.</p>
+    <p>The classifier's reject class used to be discarded silently, which meant a sign the model could not name was indistinguishable from no sign at all — and the vehicle drove past an instruction it knew was there. It is now published as sign&nbsp;0 and the stage manager halts on it <em>without advancing the stage sequence</em>, because the point is precisely that we still do not know which stage this is.</p>
+    <p>Two guards keep this from becoming a nuisance. The candidate must already have passed the red-ring geometry checks, and it must clear a geometry-score floor — the classifier's own confidence is meaningless here, since failing it is what "unknown" means. On the real footage this fired on 1 frame in 4,300, and temporal confirmation still requires four hits in six frames before anything stops.</p>
+    <p><strong>One caveat worth knowing:</strong> the classical template fallback has no reject class at all — it always returns its best-matching digit, so it can never report unknown and this fail-safe simply does not exist in that mode. Do not run the template config as the competition configuration.</p>
+  </div>
+  <p>The same logic governs the pass-on right. It may be <strong>one use across the whole final competition</strong> rather than one per run — the wording is ambiguous and worth an official question. Cones and the acceleration road cannot be passed on in the autonomous run regardless, so hold the right in reserve for whichever stage <em>physically stops the vehicle</em>. Spending it on a 5-point obstacle that has beached the robot is the ideal outcome; spending it early on a stage you could have driven is not.</p>
+</section>
+
+<section class="spine">
+  <h2>Run day</h2>
+  <p class="sec-note">Where the remaining unknowns get resolved</p>
+  <div class="twocol">
+    <div>
+      <h3>The 5-minute self-trial is a calibration slot</h3>
+      <ul class="plain">
+        <li>Measure the real sliding-door period — the single most valuable number available on site.</li>
+        <li>Confirm speed calibration on the actual surface.</li>
+        <li>Check lighting against the aim camera before it matters.</li>
+        <li>Arm/disarm sanity, stick centring, gimbal range.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Run 1 is also a data-collection pass</h3>
+      <ul class="plain">
+        <li>Manual run is the ranking gate — drive it conservatively and finish.</li>
+        <li>Record front-camera footage throughout: it is the real course imagery every vision model has been starved of.</li>
+        <li>Note actual stage-to-stage distances against the along-track estimate to check drift.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Scoring, stage geometry and the parkour layout are drawn from the official 2026 UGV specification via <code>docs/robot_project_plan.md</code>. Hardware status reflects <code>CLAUDE.md</code> as of this session — no stage behaviour below the fire-zone line has been validated on the physical vehicle.</p>
+</footer>
+
+</div>

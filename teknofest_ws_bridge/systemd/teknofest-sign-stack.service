@@ -1,0 +1,16 @@
+[Unit]
+Description=teknofest sign detector + stage manager
+After=teknofest-cameras.service teknofest-serial-bridge.service
+
+[Service]
+Type=simple
+User=jolian
+WorkingDirectory=/home/jolian/teknofest_ws
+ExecStart=/home/jolian/teknofest_ws/start_sign_stack.sh
+Restart=always
+RestartSec=5
+StandardOutput=append:/tmp/sign_stack.log
+StandardError=append:/tmp/sign_stack.log
+
+[Install]
+WantedBy=multi-user.target

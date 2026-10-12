@@ -1,0 +1,16 @@
+[Unit]
+Description=teknofest RPLidar C1 driver
+After=teknofest-cameras.service
+
+[Service]
+Type=simple
+User=jolian
+WorkingDirectory=/home/jolian/teknofest_ws
+ExecStart=/home/jolian/teknofest_ws/start_lidar.sh
+Restart=always
+RestartSec=5
+StandardOutput=append:/tmp/lidar.log
+StandardError=append:/tmp/lidar.log
+
+[Install]
+WantedBy=multi-user.target

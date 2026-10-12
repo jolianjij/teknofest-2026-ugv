@@ -1,0 +1,19 @@
+/**:
+  ros__parameters:
+    video_device: "/dev/cam_aim"
+    framerate: 30.0
+    io_method: "mmap"
+    frame_id: "camera_aim"
+    # See camera_front.yaml note: mjpeg2rgb segfaults on this usb_cam build, use yuyv.
+    # Also: this camera cannot run concurrently with camera_front while both share the
+    # USB2 hub (see CLAUDE.md Open Decisions "camera USB hub is USB2") - standalone only.
+    pixel_format: "yuyv"
+    image_width: 640
+    image_height: 480
+    camera_name: "camera_aim"
+    camera_info_url: ""
+    # Autofocus deliberately off (see esp32_firmware/ discussion) - locked
+    # manual focus, tune `focus` once mounted at real aiming distance.
+    autofocus: false
+    focus: 289
+    auto_exposure: true

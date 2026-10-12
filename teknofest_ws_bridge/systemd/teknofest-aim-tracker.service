@@ -1,0 +1,16 @@
+[Unit]
+Description=teknofest laser aim tracker
+After=teknofest-cameras.service
+
+[Service]
+Type=simple
+User=jolian
+WorkingDirectory=/home/jolian/teknofest_ws
+ExecStart=/home/jolian/teknofest_ws/start_aim_tracker.sh
+Restart=always
+RestartSec=5
+StandardOutput=append:/tmp/aim_tracker.log
+StandardError=append:/tmp/aim_tracker.log
+
+[Install]
+WantedBy=multi-user.target

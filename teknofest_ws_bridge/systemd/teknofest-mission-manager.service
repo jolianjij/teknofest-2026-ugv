@@ -1,0 +1,16 @@
+[Unit]
+Description=teknofest mission_manager (corridor-following + ExecuteStage)
+After=teknofest-heading-reference.service
+
+[Service]
+Type=simple
+User=jolian
+WorkingDirectory=/home/jolian/teknofest_ws
+ExecStart=/home/jolian/teknofest_ws/start_mission_manager.sh
+Restart=always
+RestartSec=5
+StandardOutput=append:/tmp/mission_manager.log
+StandardError=append:/tmp/mission_manager.log
+
+[Install]
+WantedBy=multi-user.target

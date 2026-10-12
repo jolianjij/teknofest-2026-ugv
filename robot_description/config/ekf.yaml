@@ -1,0 +1,37 @@
+ekf_filter_node:
+  ros__parameters:
+    frequency: 30.0
+    two_d_mode: true
+    publish_tf: true
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_footprint
+    world_frame: odom
+    use_sim_time: true
+
+    # Sim's DiffDrive-plugin odometry - near-perfect in sim, doesn't exist yet
+    # on real hardware (no wheel/track encoders - see CLAUDE.md Open Decisions
+    # "Encoders"). Swap this input for real lidar-scan-matching odometry once
+    # that's built; until then this EKF config is sim-only.
+    odom0: odom
+    odom0_config: [true,  true,  false,
+                   false, false, true,
+                   true,  true,  false,
+                   false, false, true,
+                   false, false, false]
+    odom0_differential: false
+    odom0_relative: false
+    odom0_queue_size: 10
+
+    # BNO055 via serial_bridge.py - this one IS real on both sim and hardware,
+    # same topic name either way.
+    imu0: esp32/imu
+    imu0_config: [false, false, false,
+                  true,  true,  true,
+                  false, false, false,
+                  true,  true,  true,
+                  true,  true,  true]
+    imu0_differential: false
+    imu0_relative: true
+    imu0_remove_gravitational_acceleration: true
+    imu0_queue_size: 10
